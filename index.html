@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Samuel Fallah - Graphic Designer & Brand Identity Designer Portfolio">
+    <title>Samuel Fallah - Graphic Designer & Brand Identity Designer</title>
+    
+    <!-- Google Fonts: Montserrat and Bebas Neue -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- TailwindCSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS (Animate On Scroll) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom styles for modal overlay and close button positioning -->
+    <style>
+        /* Modal overlay - full screen black background with transparency */
+        .modal-overlay {
+            z-index: 9999;
+            background-color: rgba(0, 0, 0, 0.95);
+        }
+        
+        /* Close button positioned in top-right corner of modal */
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10000;
+        }
+        
+        /* Smooth scroll behavior for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom font sizes for top bar text */
+        .top-bar-text {
+            font-size: 10px;
+            line-height: 90%;
+            letter-spacing: 10px;
+        }
+
+        
+    </style>
+</head>
+<body class="bg-black text-white">
+    
+    <!-- TOP BAR SECTION -->
+    <!-- Visible on medium screens and above (md:block) -->
+    <!-- Background: black, padding: 1rem vertical, 0.5rem horizontal -->
+    <header class="hidden md:block bg-black py-5 px-16" role="banner">
+        <div class="">
+            <!-- Main branding text: SAMUELFALLAH -->
+            <!-- font-size: 8px, line-height: 90%, color: white, font-family: Montserrat, font-weight: bold -->
+            <h1 class="top-bar-text text-white font-bold font-['Montserrat']">
+                SAMUEL  FALLAH
+            </h1>
+        </div>
+    </header>
+    
+    <!-- RESPONSIVE NAVIGATION -->
+    <!-- Hidden on mobile, visible on medium screens and above -->
+    <!-- Positioned top-right with links to all sections -->
+    <nav class="hidden md:flex justify-end items-center p-4 fixed top-0 right-0 z-50" role="navigation" aria-label="Main navigation">
+        <ul class="flex space-x-6 font-['Montserrat'] text-sm">
+            <li><a href="#hero" class="hover:text-gray-300 transition-colors" aria-label="Navigate to home section">Home</a></li>
+            <li><a href="#about" class="hover:text-gray-300 transition-colors" aria-label="Navigate to about section">About</a></li>
+            <li><a href="#work" class="hover:text-gray-300 transition-colors" aria-label="Navigate to work section">Work</a></li>
+            <li><a href="#contact" class="hover:text-gray-300 transition-colors" aria-label="Navigate to contact section">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- HERO SECTION / FIRST SECTION -->
+    <!-- Main landing area with text content on left and image on right (desktop) -->
+    <!-- On mobile: image first, then H1, then buttons, then paragraph -->
+    <section id="hero" class="min-h-screen flex flex-col md:flex-row items-center justify-between px-4 md:px-8 lg:px-16 py-8 md:py-16 overflow-x-hidden md:overflow-visible" role="main">
+        
+        <!-- LEFT SIDE: Text Content and Buttons -->
+        <!-- On mobile: order-2 (appears after image) -->
+        <!-- On desktop: flex-1 for equal space distribution -->
+        <div class="flex-1 md:pr-8 order-2 md:order-none relative" data-aos="fade-up" data-aos-duration="800">
+            
+            <!-- Main Heading: GRAPHIC DESIGNER & BRAND IDENTITY DESIGNER -->
+            <!-- font-size: 3rem on md+, font-family: Bebas Neue, font-weight: regular, color: white -->
+            <!-- On mobile: smaller text size, appears first -->
+            <h1 id="hero-title" class="text-4xl text-center md:text-left md:text-5xl lg:text-6xl font-['Bebas_Neue'] font-normal text-white order-1">
+                GRAPHIC DESIGNER & BRAND IDENTITY DESIGNER
+            </h1>
+
+            <p class="text-white text-center md:text-left font-['Montserrat'] py-4 leading-relaxed max-w-2xl order-4 md:order-none">
+                I'm Samuel Fallah — a Graphic Designer & Brand Identity Designer crafting visual systems that help businesses stand out, communicate clearly, and build trust.
+                From logo design to full brand identity, I bring clarity, creativity, and intention into every project.
+            </p>
+            
+            <!-- Buttons Container -->
+            <!-- On mobile: order-2 (appears after H1, before image) -->
+            <!-- On desktop: appears after H1, before paragraph -->
+            <div class="flex flex-col justify-center items-center md:items-start gap-4 mb-6 md:mb-8 order-2">
+                
+                <!-- Button 1: View my work - scrolls to work section -->
+                <div class="flex flex-row gap-4">
+                    <a href="#work" 
+                   class="px-6 py-2 flex items-center justify-center bg-[#CD513E] text-white text-sm hover:bg-[#A33F30] font-['Montserrat'] font-bold rounded transition-colors text-center"
+                   aria-label="View my work portfolio">
+                    View my work.
+                    </a>
+                    
+                    <!-- Button 2: About me - scrolls to about section -->
+                    <a href="#about" 
+                    class="px-6 py-2 flex items-center justify-center text-sm bg-transparent border border-[#7D7D7D] text-white font-['Montserrat'] font-bold rounded-md hover:bg-white hover:text-black transition-colors text-center"
+                    aria-label="Learn more about me">
+                        About me
+                    </a>
+                </div>
+                
+                <!-- Button 3: Contact me - scrolls to contact section -->
+                <div class="flex flex-row gap-4">
+                    <a href="#contact" 
+                    class="px-6 py-2 flex items-center justify-center text-sm bg-transparent border border-[#7D7D7D] text-white font-['Montserrat'] font-bold rounded hover:bg-white hover:text-black transition-colors text-center"
+                    aria-label="Contact me">
+                        Contact me
+                    </a>
+                    
+                    <!-- Button 4: Download Resume -->
+                    <!-- Resume file located in Public/DOCS folder -->
+                    <a href="/Public/DOCS/Samuel%20Fallah_Graphic%20Design_Resume_2025.pdf" 
+                    download="Samuel-Fallah-Resume.pdf"
+                    class="px-6 py-2 flex items-center justify-center text-sm bg-transparent border border-[#7D7D7D] text-white font-['Montserrat'] font-bold rounded hover:bg-white hover:text-black transition-colors text-center"
+                    aria-label="Download my resume">
+                        Download Resume
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Paragraph: Introduction Text -->
+            <!-- On mobile: order-4 (appears last, after image) -->
+            <!-- On desktop: appears after buttons -->
+            <!-- color: white, readable line-height, max-width for large screens -->
+        </div>
+        
+        <!-- RIGHT SIDE: Hero Image (Desktop) / Small Image (Mobile) -->
+        <!-- On mobile: order-1 (appears first, before all text content), spans 150% viewport width -->
+        <!-- On desktop: flex-1 for equal space, appears on right side -->
+        <!-- TODO: Replace the image source with your actual file from Public/PUBLIC ASSETS folder -->
+        <!-- Expected files: LARGE.png (for desktop) and SMALL.png (for mobile) -->
+        <div class="flex-1 flex justify-center items-end md:items-center order-1 md:order-none mb-0 md:mb-0 -mx-4 md:mx-0 overflow-x-hidden md:overflow-visible" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="200">
+            <!-- Desktop: Large image -->
+            <img src="/Public/PUBLIC ASSETS/LARGE.png" 
+                 alt="Samuel Fallah - Graphic Designer" 
+                 class="hidden md:block w-full max-w-lg h-auto rounded-lg"
+                 aria-label="Samuel Fallah professional portrait">
+            
+            <!-- Mobile: Small image - bottom aligns with middle of H1 title -->
+            <!-- w-[220vw] makes image 220% of viewport width, -translate-x-[3%] shifts it 3% left -->
+            <!-- translate-y-[50%] shifts image down so its bottom aligns with H1's vertical center -->
+            <img src="/Public/PUBLIC ASSETS/SMALL.png" 
+                 alt="Samuel Fallah - Graphic Designer" 
+                 class="block md:hidden scale-110 md:scale-100 w-[220vw] h-auto -translate-x-[4%] translate-y-[5%] md:translate-y-0 md:translate-x-0"
+                 aria-label="Samuel Fallah professional portrait">
+        </div>
+    </section>
+    
+    <!-- SECTION 2: ABOUT ME -->
+    <!-- Centered section with heading and descriptive paragraph -->
+    <section id="about" class="min-h-screen flex flex-col items-center justify-center px-4 md:px-8 lg:px-16 pt-[10px] pb-16 md:pb-24" role="region" aria-labelledby="about-heading">
+        <!-- Small centered heading: ABOUT ME -->
+        <!-- font-family: Bebas Neue, centered -->
+        <h2 id="about-heading" class="text-4xl md:text-5xl font-['Bebas_Neue'] text-center mb-8" data-aos="fade-up" data-aos-duration="800">
+            ABOUT ME
+        </h2>
+        
+        <!-- Descriptive paragraph with placeholder Lorem Ipsum text -->
+        <!-- TODO: Replace this placeholder text with your actual about me content -->
+        <p class="text-white font-['Montserrat'] leading-relaxed max-w-3xl text-center px-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+            From as early as age seven, I found myself captivated by the world of visuals long before I even understood what “design” meant. I would walk through the streets reading every poster, billboard, and sign I saw, fascinated by how colors, shapes, and letters could speak without making a sound. That curiosity grew alongside my love for cartoons and the countless hours I spent drawing characters, logos, and anything my imagination could sketch onto paper.
+            <br/> <br/>
+
+            As I grew older, that spark only burned brighter. I began experimenting with design on my mobile phone—creating simple flyers, editing photos, and trying to recreate the posters I admired. High school became the real turning point: I finally had access to the tools and devices needed to design more seriously. I started creating flyers for events, friends, and small groups, treating each project as a chance to learn something new.
+
+Since then, design has become more than a passion it’s a craft I constantly refine. I’ve completed over 100 free practice projects just to sharpen my skills, explore styles, and build range. <br/> <br/> Along the way, I’ve also delivered 30+ real client and corporate projects, helping businesses communicate clearly, stand out visually, and build trust through intentional design.
+
+Today, I’m a Graphic Designer & Brand Identity Designer driven by the same sense of wonder I had at seven years old—but now equipped with experience, discipline, and a deep love for creating visuals that truly matter.
+
+        </p>
+    </section>
+    
+    <!-- SECTION 3: MY WORK / PORTFOLIO GALLERY -->
+    <!-- Displays all flyer images in a responsive grid -->
+    <!-- Each image is clickable and opens a modal preview -->
+    <section id="work" class="min-h-screen px-4 md:px-8 lg:px-16 py-16 md:py-24" role="region" aria-labelledby="work-heading">
+        <!-- Section heading -->
+        <h2 id="work-heading" class="text-4xl md:text-5xl font-['Bebas_Neue'] text-center mb-12" data-aos="fade-up" data-aos-duration="800">
+            MY WORK
+        </h2>
+        
+        <!-- Gallery Container -->
+        <!-- Responsive flex grid: 1 column on mobile, 2 on tablet, 3+ on desktop -->
+        <!-- Items wrap and have good spacing -->
+        <div id="gallery-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+            <!-- Gallery items will be dynamically inserted here by main.js -->
+        </div>
+    </section>
+    
+    <!-- MODAL / PREVIEW OVERLAY -->
+    <!-- Hidden by default, shown when user clicks a flyer image -->
+    <!-- Displays large version of clicked image with close and download buttons -->
+    <div id="modal-overlay" 
+         class="modal-overlay fixed inset-0 hidden items-center justify-center" 
+         role="dialog" 
+         aria-modal="true" 
+         aria-label="Flyer preview">
+        
+        <!-- Close button: positioned in top-right corner -->
+        <button id="modal-close-btn" 
+                class="modal-close-btn bg-[#CD513E] text-white px-4 py-2 rounded font-['Montserrat'] font-bold hover:bg-[#A33F30] transition-colors"
+                aria-label="Close preview">
+            ✕ Close
+        </button>
+        
+        <!-- Modal content container -->
+        <div class="flex flex-col items-center justify-center p-4 md:p-8">
+            <!-- Large preview image -->
+            <img id="modal-image" 
+                 src="" 
+                 alt="Flyer preview" 
+                 class="max-w-full max-h-[80vh] object-contain rounded-lg">
+            
+            <!-- Download button: allows user to download the displayed flyer -->
+            <a id="modal-download-btn" 
+               href="" 
+               download
+               class="mt-6 px-6 py-3 bg-white text-black font-['Montserrat'] font-bold rounded hover:bg-gray-200 transition-colors"
+               aria-label="Download this flyer">
+                Download Flyer
+            </a>
+        </div>
+    </div>
+    
+    <!-- SECTION 4: CONTACT ME -->
+    <!-- Simple centered section with name and contact information -->
+    <section id="contact" class="min-h-screen flex flex-col items-center justify-center px-4 md:px-8 lg:px-16 py-16 md:py-24" role="region" aria-labelledby="contact-heading">
+        <!-- Section heading -->
+        <h2 id="contact-heading" class="text-4xl md:text-5xl font-['Bebas_Neue'] text-center mb-12" data-aos="fade-up" data-aos-duration="800">
+            CONTACT ME
+        </h2>
+        
+        <!-- Contact information container -->
+        <div class="text-center font-['Montserrat'] space-y-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+            <!-- Name -->
+            <p class="text-2xl font-bold">Samuel Fallah</p>
+            
+            <!-- Email -->
+            <!-- TODO: Replace the placeholder email with your actual email address -->
+            <p>
+                <span class="font-semibold">Email:</span> 
+                <a href="mailto:samuel@example.com" class="text-white hover:text-gray-300 underline transition-colors" aria-label="Send email to Samuel Fallah">
+                    samuel@example.com
+                </a>
+            </p>
+            
+            <!-- Telephone -->
+            <p>
+                <span class="font-semibold">Telephone:</span> 
+                <a href="tel:+2207884061" class="text-white hover:text-gray-300 underline transition-colors" aria-label="Call Samuel Fallah">
+                    +220 7884061 / +220 2254235
+                </a>
+            </p>
+        </div>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer class="bg-black py-8 text-center font-['Montserrat'] text-sm text-gray-400" role="contentinfo">
+        <p>&copy; 2024 Samuel Fallah. All rights reserved.</p>
+    </footer>
+    
+    <!-- AOS (Animate On Scroll) JavaScript -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Main JavaScript file -->
+    <script src="main.js"></script>
+    
+    <!-- Initialize AOS when page loads -->
+    <script>
+        // Initialize AOS (Animate On Scroll) library
+        // This enables scroll animations for elements with data-aos attributes
+        AOS.init({
+            duration: 800,        // Animation duration in milliseconds
+            easing: 'ease-in-out', // Animation easing function
+            once: true,           // Animate only once when element comes into view
+            offset: 100           // Offset (in pixels) from bottom of viewport to trigger animation
+        });
+    </script>
+</body>
+</html>
+
