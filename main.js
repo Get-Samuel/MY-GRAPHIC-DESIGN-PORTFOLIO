@@ -14,50 +14,50 @@
 
 /**
  * Array of flyer image paths
- * TODO: Replace these placeholder paths with your actual filenames from Public/ALL FLYERS folder
+ * Using relative paths for GitHub Pages compatibility
  * 
  * Current folder structure: Public/ALL FLYERS/
- * Make sure the paths match your actual file names exactly (case-sensitive)
+ * All paths are relative to index.html location (root of repository)
  */
 const flyers = [
-    '/Public/ALL FLYERS/AFROSONIK-FEST-\'25-FLYER.png',
-    '/Public/ALL FLYERS/AFTER-PARTY-01-POSTER.png',
-    '/Public/ALL FLYERS/AISHA\'S-BEAUTY-EMPIRE-02.png',
-    '/Public/ALL FLYERS/BEYOND-THE-CANVAS-ART-EXHIBITION.png',
-    '/Public/ALL FLYERS/BORN-FROM-THE-STREETS-POSTER.png',
-    '/Public/ALL FLYERS/BUSINESS-MADE-EASY.png',
-    '/Public/ALL FLYERS/CHARITY-01-FULL.png',
-    '/Public/ALL FLYERS/CLOUDY-POSTER-01.png',
-    '/Public/ALL FLYERS/CRYPTO-02.png',
-    '/Public/ALL FLYERS/CRYPTO-FLYER.png',
-    '/Public/ALL FLYERS/CRYPTO-INSTANTLY.png',
-    '/Public/ALL FLYERS/FILL-UP-PRAYER-POSTER.png',
-    '/Public/ALL FLYERS/FOREX-EXCHANGE01.png',
-    '/Public/ALL FLYERS/FORTI-CRYPTO-POSTER-01.png',
-    '/Public/ALL FLYERS/FORTI-TRADE-POSTER-04.png',
-    '/Public/ALL FLYERS/FORTI-TRADIND-POSTER-05-01.png',
-    '/Public/ALL FLYERS/FORTI-TRADING-POSTER-02.png',
-    '/Public/ALL FLYERS/GAMBRO-BDAY-FLYER.png',
-    '/Public/ALL FLYERS/JASSEH\'S-POSTER-01.png',
-    '/Public/ALL FLYERS/KADDI-KONNECT-POSTER-01.png',
-    '/Public/ALL FLYERS/KADDI-KONNECT-POSTER-02.png',
-    '/Public/ALL FLYERS/KADDI-KONNECT-POSTER-03.png',
-    '/Public/ALL FLYERS/KADDI-KONNECT-POSTER-04.png',
-    '/Public/ALL FLYERS/KADDI-KONNECT-POSTER-05.png',
-    '/Public/ALL FLYERS/KADDI-KONNECT-POSTER-06.png',
-    '/Public/ALL FLYERS/KADDI-KONNECT-POSTER-07.png',
-    '/Public/ALL FLYERS/KADDI-KONNECT-POSTER-08.png',
-    '/Public/ALL FLYERS/KADDI-KONNECT-POSTER-09.png',
-    '/Public/ALL FLYERS/KADDI-KONNECT-POSTER-GRID.png',
-    '/Public/ALL FLYERS/MICRO-FINANCE-01-A.png',
-    '/Public/ALL FLYERS/MICRO-FINANCE-01.png',
-    '/Public/ALL FLYERS/PREDICT-THE-WIN.png',
-    '/Public/ALL FLYERS/PTC-TRADING-POSTER-02.png',
-    '/Public/ALL FLYERS/SIGNAL-ART-EXHIBITION.png',
-    '/Public/ALL FLYERS/SOHNA-SPIRITS-POSTER-01.gif',
-    '/Public/ALL FLYERS/THANK-GOD-IS-FRIDAY.png',
-    '/Public/ALL FLYERS/TINNA\'S-MASTERCLASS-MAKEUP-3D-HEART.png',
-    '/Public/ALL FLYERS/TIRED-OF-DELAYED-TRANSACTION-02.png'
+    'Public/ALL FLYERS/AFROSONIK-FEST-\'25-FLYER.png',
+    'Public/ALL FLYERS/AFTER-PARTY-01-POSTER.png',
+    'Public/ALL FLYERS/AISHA\'S-BEAUTY-EMPIRE-02.png',
+    'Public/ALL FLYERS/BEYOND-THE-CANVAS-ART-EXHIBITION.png',
+    'Public/ALL FLYERS/BORN-FROM-THE-STREETS-POSTER.png',
+    'Public/ALL FLYERS/BUSINESS-MADE-EASY.png',
+    'Public/ALL FLYERS/CHARITY-01-FULL.png',
+    'Public/ALL FLYERS/CLOUDY-POSTER-01.png',
+    'Public/ALL FLYERS/CRYPTO-02.png',
+    'Public/ALL FLYERS/CRYPTO-FLYER.png',
+    'Public/ALL FLYERS/CRYPTO-INSTANTLY.png',
+    'Public/ALL FLYERS/FILL-UP-PRAYER-POSTER.png',
+    'Public/ALL FLYERS/FOREX-EXCHANGE01.png',
+    'Public/ALL FLYERS/FORTI-CRYPTO-POSTER-01.png',
+    'Public/ALL FLYERS/FORTI-TRADE-POSTER-04.png',
+    'Public/ALL FLYERS/FORTI-TRADIND-POSTER-05-01.png',
+    'Public/ALL FLYERS/FORTI-TRADING-POSTER-02.png',
+    'Public/ALL FLYERS/GAMBRO-BDAY-FLYER.png',
+    'Public/ALL FLYERS/JASSEH\'S-POSTER-01.png',
+    'Public/ALL FLYERS/KADDI-KONNECT-POSTER-01.png',
+    'Public/ALL FLYERS/KADDI-KONNECT-POSTER-02.png',
+    'Public/ALL FLYERS/KADDI-KONNECT-POSTER-03.png',
+    'Public/ALL FLYERS/KADDI-KONNECT-POSTER-04.png',
+    'Public/ALL FLYERS/KADDI-KONNECT-POSTER-05.png',
+    'Public/ALL FLYERS/KADDI-KONNECT-POSTER-06.png',
+    'Public/ALL FLYERS/KADDI-KONNECT-POSTER-07.png',
+    'Public/ALL FLYERS/KADDI-KONNECT-POSTER-08.png',
+    'Public/ALL FLYERS/KADDI-KONNECT-POSTER-09.png',
+    'Public/ALL FLYERS/KADDI-KONNECT-POSTER-GRID.png',
+    'Public/ALL FLYERS/MICRO-FINANCE-01-A.png',
+    'Public/ALL FLYERS/MICRO-FINANCE-01.png',
+    'Public/ALL FLYERS/PREDICT-THE-WIN.png',
+    'Public/ALL FLYERS/PTC-TRADING-POSTER-02.png',
+    'Public/ALL FLYERS/SIGNAL-ART-EXHIBITION.png',
+    'Public/ALL FLYERS/SOHNA-SPIRITS-POSTER-01.gif',
+    'Public/ALL FLYERS/THANK-GOD-IS-FRIDAY.png',
+    'Public/ALL FLYERS/TINNA\'S-MASTERCLASS-MAKEUP-3D-HEART.png',
+    'Public/ALL FLYERS/TIRED-OF-DELAYED-TRANSACTION-02.png'
 ];
 
 // ============================================================================
@@ -99,7 +99,7 @@ function generateGallery() {
     // Loop through each flyer in the array
     flyers.forEach((flyerPath, index) => {
         // Extract filename from path for alt text and aria-label
-        // Example: '/Public/ALL FLYERS/FLYER-NAME.png' -> 'FLYER-NAME'
+        // Example: 'Public/ALL FLYERS/FLYER-NAME.png' -> 'FLYER-NAME'
         const filename = flyerPath.split('/').pop().replace(/\.[^/.]+$/, '');
         
         // Create a card container for each flyer
@@ -112,7 +112,8 @@ function generateGallery() {
         
         // Create the image element
         const img = document.createElement('img');
-        img.src = flyerPath;
+        // Encode path to handle spaces and special characters for GitHub Pages compatibility
+        img.src = encodeURI(flyerPath);
         img.alt = `${filename} flyer preview`;
         img.className = 'w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300';
         img.loading = 'lazy'; // Lazy load images for better performance
@@ -152,12 +153,14 @@ function openModal(imagePath, imageName) {
     lastFocusedElement = document.activeElement;
     
     // Set the modal image source to the clicked flyer
-    modalImage.src = imagePath;
+    // Encode path to handle spaces and special characters for GitHub Pages compatibility
+    modalImage.src = encodeURI(imagePath);
     modalImage.alt = `${imageName} flyer full preview`;
     
     // Set the download button href and download attribute
     // This allows users to download the flyer directly from the modal
-    modalDownloadBtn.href = imagePath;
+    // Encode the path for href to handle spaces and special characters properly
+    modalDownloadBtn.href = encodeURI(imagePath);
     modalDownloadBtn.download = imageName;
     
     // Show the modal overlay (remove 'hidden' class, add 'flex' for centering)
