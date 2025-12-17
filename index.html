@@ -23,6 +23,55 @@
         .modal-overlay {
             z-index: 9999;
             background-color: rgba(0, 0, 0, 0.95);
+            /* Smooth fade animation (JS toggles .is-open) */
+            opacity: 0;
+            pointer-events: none; /* prevent clicking when closed */
+            transition: opacity 200ms ease;
+        }
+
+        /* When modal is open, fade in and allow interaction */
+        .modal-overlay.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Modal panel contains the image + actions */
+        /* - No fixed width/height: it naturally sizes to the image */
+        /* - Viewport safety: never exceed the viewport */
+        /* - If the image is tall, the panel scrolls vertically */
+        .modal-panel {
+            /* Keep content (image + buttons) centered in the panel */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            max-width: 95vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            /* Smooth open animation */
+            transform: translateY(10px) scale(0.98);
+            opacity: 0;
+            transition: transform 200ms ease, opacity 200ms ease;
+        }
+
+        /* When overlay is open, animate panel in */
+        .modal-overlay.is-open .modal-panel {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        /* The preview image itself */
+        /* - Keeps aspect ratio */
+        /* - Never stretches */
+        /* - Fits within viewport width */
+        .modal-media {
+            display: block;
+            width: auto;
+            height: auto;
+            max-width: 95vw;
+            object-fit: contain;
         }
         
         /* Close button positioned in top-right corner of modal */
@@ -71,6 +120,7 @@
             <li><a href="#hero" class="hover:text-gray-300 transition-colors" aria-label="Navigate to home section">Home</a></li>
             <li><a href="#about" class="hover:text-gray-300 transition-colors" aria-label="Navigate to about section">About</a></li>
             <li><a href="#work" class="hover:text-gray-300 transition-colors" aria-label="Navigate to work section">Work</a></li>
+            <li><a href="#logos" class="hover:text-gray-300 transition-colors" aria-label="Navigate to logo projects section">Logos</a></li>
             <li><a href="#contact" class="hover:text-gray-300 transition-colors" aria-label="Navigate to contact section">Contact</a></li>
         </ul>
     </nav>
@@ -208,15 +258,31 @@ Today, I’m a Graphic Designer & Brand Identity Designer driven by the same sen
             <!-- Gallery items will be dynamically inserted here by main.js -->
         </div>
     </section>
+
+    <!-- SECTION: LOGO PROJECTS -->
+    <!-- Loads and displays all logo images from Public/ALL LOGOS (rendered by main.js) -->
+    <section id="logos" class="min-h-screen px-4 md:px-8 lg:px-16 py-16 md:py-24" role="region" aria-labelledby="logos-heading">
+        <!-- Section heading -->
+        <h2 id="logos-heading" class="text-4xl md:text-5xl font-['Bebas_Neue'] text-center mb-12" data-aos="fade-up" data-aos-duration="800">
+            LOGO PROJECTS
+        </h2>
+        
+        <!-- Logo Grid Container -->
+        <!-- Responsive grid: more columns on wider screens -->
+        <div id="logo-gallery-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+            <!-- Logo items will be dynamically inserted here by main.js -->
+        </div>
+    </section>
     
     <!-- MODAL / PREVIEW OVERLAY -->
-    <!-- Hidden by default, shown when user clicks a flyer image -->
-    <!-- Displays large version of clicked image with close and download buttons -->
+    <!-- Hidden by default, shown when user clicks a flyer OR logo -->
+    <!-- Displays large version of clicked image with close + download buttons -->
     <div id="modal-overlay" 
          class="modal-overlay fixed inset-0 hidden items-center justify-center" 
          role="dialog" 
          aria-modal="true" 
-         aria-label="Flyer preview">
+         aria-label="Image preview"
+         aria-hidden="true">
         
         <!-- Close button: positioned in top-right corner -->
         <button id="modal-close-btn" 
@@ -225,21 +291,22 @@ Today, I’m a Graphic Designer & Brand Identity Designer driven by the same sen
             ✕ Close
         </button>
         
-        <!-- Modal content container -->
-        <div class="flex flex-col items-center justify-center p-4 md:p-8">
+        <!-- Modal panel -->
+        <!-- IMPORTANT: No fixed width/height here; panel adapts to the image -->
+        <div id="modal-panel" class="modal-panel bg-black/0 p-4 md:p-6">
             <!-- Large preview image -->
             <img id="modal-image" 
                  src="" 
-                 alt="Flyer preview" 
-                 class="max-w-full max-h-[80vh] object-contain rounded-lg">
+                 alt="Image preview" 
+                 class="modal-media rounded-lg">
             
             <!-- Download button: allows user to download the displayed flyer -->
             <a id="modal-download-btn" 
                href="" 
                download
-               class="mt-6 px-6 py-3 bg-white text-black font-['Montserrat'] font-bold rounded hover:bg-gray-200 transition-colors"
-               aria-label="Download this flyer">
-                Download Flyer
+               class="mt-6 inline-flex items-center justify-center px-6 py-3 bg-white text-black font-['Montserrat'] font-bold rounded hover:bg-gray-200 transition-colors"
+               aria-label="Download this image">
+                Download Image
             </a>
         </div>
     </div>

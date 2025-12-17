@@ -13,12 +13,39 @@
 // ============================================================================
 
 /**
+ * Safely encodes a relative file path for use in src/href.
+ *
+ * Why this exists:
+ * - GitHub Pages is strict about URL encoding
+ * - Many of your filenames contain spaces, apostrophes, and symbols (e.g. "@")
+ * - encodeURI() does NOT encode everything (notably it leaves apostrophes)
+ *
+ * This function encodes each path segment individually so that:
+ * - "./Public/ALL LOGOS/Cliick Logo 1@4x.png"
+ * becomes
+ * - "./Public/ALL%20LOGOS/Cliick%20Logo%201%404x.png"
+ *
+ * @param {string} path - A relative path like "./Public/ALL LOGOS/file name.png"
+ * @returns {string} - Encoded safe path for the browser
+ */
+function encodePath(path) {
+    return path
+        .split('/')
+        .map((segment) => {
+            // Preserve empty segments and the current-directory marker
+            if (segment === '' || segment === '.') return segment;
+            return encodeURIComponent(segment);
+        })
+        .join('/');
+}
+
+/**
  * Array of flyer image paths
  * Using relative paths for GitHub Pages compatibility
  * 
  * Current folder structure: Public/ALL FLYERS/
  * All paths are relative to index.html location (root of repository)
- * Spaces in folder names are handled by encodeURI() function when setting image src
+ * NOTE: Special characters/spaces are handled by encodePath() when setting src/href
  */
 const flyers = [
     './Public/ALL FLYERS/AFROSONIK-FEST-\'25-FLYER.png',
@@ -61,6 +88,27 @@ const flyers = [
     './Public/ALL FLYERS/TIRED-OF-DELAYED-TRANSACTION-02.png'
 ];
 
+/**
+ * Array of logo image paths (from Public/ALL LOGOS)
+ * These are rendered in the "Logo Projects" section.
+ *
+ * NOTE: Paths are kept un-encoded here for readability; encodePath() handles safety.
+ */
+const logos = [
+    './Public/ALL LOGOS/AfroSnz-Behance-01.png',
+    './Public/ALL LOGOS/AfroSnz-Behance-03.png',
+    './Public/ALL LOGOS/Annoucement 1.png',
+    './Public/ALL LOGOS/BOTLAX 01.png',
+    './Public/ALL LOGOS/BOTLAX 02.png',
+    './Public/ALL LOGOS/Claud-Africa-New-Logo-1.png',
+    './Public/ALL LOGOS/Cliick Logo 1@4x.png',
+    './Public/ALL LOGOS/Cliick Logo 4@4x.png',
+    './Public/ALL LOGOS/LOGO_1 copy.png',
+    './Public/ALL LOGOS/LOGO_7.png',
+    './Public/ALL LOGOS/MAGENTA BG.png',
+    './Public/ALL LOGOS/WHITE BG 02.png',
+];
+
 // ============================================================================
 // DOM ELEMENT REFERENCES
 // ============================================================================
@@ -70,13 +118,21 @@ const flyers = [
  * These will be used throughout the script for gallery and modal functionality
  */
 const galleryContainer = document.getElementById('gallery-container');
+const logoGalleryContainer = document.getElementById('logo-gallery-container');
 const modalOverlay = document.getElementById('modal-overlay');
+const modalPanel = document.getElementById('modal-panel');
 const modalImage = document.getElementById('modal-image');
 const modalCloseBtn = document.getElementById('modal-close-btn');
 const modalDownloadBtn = document.getElementById('modal-download-btn');
 
 // Store reference to the element that opened the modal (for focus management)
 let lastFocusedElement = null;
+
+// Track whether modal is open (used for keyboard handling)
+let isModalOpen = false;
+
+// Match the CSS transition duration in index.html (<style>) so we can hide after animation
+const MODAL_ANIMATION_MS = 200;
 
 // ============================================================================
 // GALLERY GENERATION
@@ -113,8 +169,8 @@ function generateGallery() {
         
         // Create the image element
         const img = document.createElement('img');
-        // Encode path to handle spaces and special characters for GitHub Pages compatibility
-        img.src = encodeURI(flyerPath);
+        // Encode path to handle spaces/special characters for GitHub Pages compatibility
+        img.src = encodePath(flyerPath);
         img.alt = `${filename} flyer preview`;
         img.className = 'w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300';
         img.loading = 'lazy'; // Lazy load images for better performance
@@ -138,9 +194,83 @@ function generateGallery() {
     });
 }
 
+/**
+ * Generates the logo gallery (Logo Projects section)
+ * - Fully responsive grid
+ * - Each logo preserves aspect ratio (object-fit: contain)
+ * - Click opens the same modal/lightbox
+ */
+function generateLogoGallery() {
+    // If the section isn't in the HTML for some reason, fail gracefully
+    if (!logoGalleryContainer) {
+        console.warn('Logo gallery container not found. Did you remove #logo-gallery-container?');
+        return;
+    }
+
+    // Clear existing content
+    logoGalleryContainer.innerHTML = '';
+
+    // Use a DocumentFragment to minimize DOM thrashing (better performance)
+    const fragment = document.createDocumentFragment();
+
+    logos.forEach((logoPath) => {
+        // Human-friendly name for aria-label and alt text
+        const filenameWithExt = logoPath.split('/').pop() || 'logo';
+        const filename = filenameWithExt.replace(/\.[^/.]+$/, '');
+
+        // Create a clickable card
+        const card = document.createElement('div');
+        card.className =
+            // Fixed-height container so the grid looks tidy
+            'cursor-pointer group rounded-lg bg-gray-900/60 hover:bg-gray-900 transition-colors p-3 ' +
+            'flex items-center justify-center h-28 sm:h-32 md:h-36';
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', `View ${filename} logo`);
+
+        // Create the logo image (contain = never stretch/distort)
+        const img = document.createElement('img');
+        img.src = encodePath(logoPath);
+        img.alt = `${filename} logo preview`;
+        img.className = 'w-full h-full object-contain';
+        img.loading = 'lazy';
+
+        card.appendChild(img);
+
+        // Click opens modal
+        card.addEventListener('click', () => openModal(logoPath, filename));
+
+        // Keyboard support (Enter/Space)
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openModal(logoPath, filename);
+            }
+        });
+
+        fragment.appendChild(card);
+    });
+
+    logoGalleryContainer.appendChild(fragment);
+}
+
 // ============================================================================
 // MODAL FUNCTIONALITY
 // ============================================================================
+
+/**
+ * Returns all focusable elements inside a container.
+ * Used for focus trapping inside the modal for accessibility.
+ */
+function getFocusableElements(container) {
+    if (!container) return [];
+    const selector =
+        'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+    return Array.from(container.querySelectorAll(selector)).filter((el) => {
+        // Ignore elements that are not actually visible
+        return !(el.offsetParent === null);
+    });
+}
 
 /**
  * Opens the modal/preview overlay with the selected flyer image
@@ -153,26 +283,36 @@ function openModal(imagePath, imageName) {
     // This allows us to return focus to it when modal closes
     lastFocusedElement = document.activeElement;
     
-    // Set the modal image source to the clicked flyer
-    // Encode path to handle spaces and special characters for GitHub Pages compatibility
-    modalImage.src = encodeURI(imagePath);
-    modalImage.alt = `${imageName} flyer full preview`;
+    // Mark modal as open (used by keyboard handlers)
+    isModalOpen = true;
+
+    // Set the modal image source to the clicked image (flyer OR logo)
+    // encodePath() safely handles spaces, apostrophes, and other special characters
+    modalImage.src = encodePath(imagePath);
+    modalImage.alt = `${imageName} preview`;
     
     // Set the download button href and download attribute
-    // This allows users to download the flyer directly from the modal
-    // Encode the path for href to handle spaces and special characters properly
-    modalDownloadBtn.href = encodeURI(imagePath);
-    modalDownloadBtn.download = imageName;
+    // This allows users to download the image directly from the modal
+    modalDownloadBtn.href = encodePath(imagePath);
+    // Use the original filename with extension for the download attribute
+    modalDownloadBtn.download = imagePath.split('/').pop() || imageName;
     
     // Show the modal overlay (remove 'hidden' class, add 'flex' for centering)
     modalOverlay.classList.remove('hidden');
     modalOverlay.classList.add('flex');
+
+    // Accessibility: mark as visible to assistive tech
+    modalOverlay.setAttribute('aria-hidden', 'false');
+
+    // Trigger CSS animation on next frame (adds .is-open)
+    requestAnimationFrame(() => {
+        modalOverlay.classList.add('is-open');
+    });
     
     // Prevent body scroll when modal is open (so background doesn't scroll)
     document.body.style.overflow = 'hidden';
     
     // Focus the close button for keyboard accessibility
-    // This traps focus inside the modal
     modalCloseBtn.focus();
 }
 
@@ -181,19 +321,29 @@ function openModal(imagePath, imageName) {
  * Restores focus to the element that opened it
  */
 function closeModal() {
-    // Hide the modal overlay (add 'hidden' class, remove 'flex')
-    modalOverlay.classList.add('hidden');
-    modalOverlay.classList.remove('flex');
+    // Mark modal as closed (used by keyboard handlers)
+    isModalOpen = false;
+
+    // Start close animation
+    modalOverlay.classList.remove('is-open');
     
-    // Restore body scroll
-    document.body.style.overflow = '';
-    
-    // Return focus to the element that opened the modal
-    // This is important for keyboard navigation and screen readers
-    if (lastFocusedElement) {
-        lastFocusedElement.focus();
-        lastFocusedElement = null;
-    }
+    // After the animation completes, fully hide the overlay
+    window.setTimeout(() => {
+        modalOverlay.classList.add('hidden');
+        modalOverlay.classList.remove('flex');
+
+        // Accessibility: mark as hidden to assistive tech
+        modalOverlay.setAttribute('aria-hidden', 'true');
+
+        // Restore body scroll
+        document.body.style.overflow = '';
+
+        // Return focus to the element that opened the modal
+        if (lastFocusedElement) {
+            lastFocusedElement.focus();
+            lastFocusedElement = null;
+        }
+    }, MODAL_ANIMATION_MS);
 }
 
 // ============================================================================
@@ -211,12 +361,35 @@ function setupEventListeners() {
         modalCloseBtn.addEventListener('click', closeModal);
     }
     
-    // Escape key event listener
-    // Closes modal when user presses Escape key
+    // Global keydown listener:
+    // - ESC closes the modal
+    // - TAB is trapped inside the modal (focus trap)
     document.addEventListener('keydown', (e) => {
-        // Check if Escape key was pressed AND modal is currently visible
-        if (e.key === 'Escape' && !modalOverlay.classList.contains('hidden')) {
+        // ESC closes the modal
+        if (e.key === 'Escape' && isModalOpen) {
             closeModal();
+            return;
+        }
+
+        // Focus trap (TAB / Shift+TAB)
+        if (e.key === 'Tab' && isModalOpen) {
+            const focusables = getFocusableElements(modalOverlay);
+            if (focusables.length === 0) return;
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+
+            // If SHIFT+TAB on first element, jump to last
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            }
+
+            // If TAB on last element, jump to first
+            if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
         }
     });
     
@@ -245,6 +418,9 @@ function setupEventListeners() {
 function init() {
     // Generate the gallery of flyer images
     generateGallery();
+
+    // Generate the logo gallery
+    generateLogoGallery();
     
     // Set up all event listeners for modal interactions
     setupEventListeners();
@@ -252,6 +428,7 @@ function init() {
     // Log success message to console (for debugging)
     console.log('Portfolio initialized successfully!');
     console.log(`Loaded ${flyers.length} flyer images.`);
+    console.log(`Loaded ${logos.length} logo images.`);
 }
 
 // ============================================================================
