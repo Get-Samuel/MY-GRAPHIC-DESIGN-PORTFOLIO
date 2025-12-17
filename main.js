@@ -221,9 +221,9 @@ function generateLogoGallery() {
         // Create a clickable card
         const card = document.createElement('div');
         card.className =
-            // Fixed-height container so the grid looks tidy
-            'cursor-pointer group rounded-lg bg-gray-900/60 hover:bg-gray-900 transition-colors p-3 ' +
-            'flex items-center justify-center h-28 sm:h-32 md:h-36';
+            // Bigger fixed-height container so logos appear larger (still keeps object-contain)
+            'cursor-pointer group rounded-lg bg-gray-900/60 hover:bg-gray-900 transition-colors p-4 md:p-5 ' +
+            'flex items-center justify-center h-36 sm:h-44 md:h-52';
         card.setAttribute('role', 'button');
         card.setAttribute('tabindex', '0');
         card.setAttribute('aria-label', `View ${filename} logo`);
